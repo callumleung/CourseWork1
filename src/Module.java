@@ -36,4 +36,6 @@ public class Module {
     private void setCredits(int credits) {
         this.credits = credits;
     }
+
+    //TODO override equals and hash methods
 }

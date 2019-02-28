@@ -29,8 +29,6 @@ public abstract class Student implements Person{
         }
     }
 
-    abstract String createStudentID(ArrayList<Student> s);
-
     @Override
     public String getName() {
         return name;
@@ -41,8 +39,6 @@ public abstract class Student implements Person{
 
         return calculateAge(new Date());
     }
-
-    abstract public boolean validNumberOfCredits();
 
     public ArrayList<Module> getModules(){
         return this.modules;
@@ -60,5 +56,12 @@ public abstract class Student implements Person{
         return age;
     }
 
+    public abstract String getID();
+
+    abstract String createStudentID(ArrayList<Student> s);
+
+    abstract public boolean validNumberOfCredits();
+
+    abstract public ArrayList<Module> getRegisteredModules();
 
 }

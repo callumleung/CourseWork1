@@ -8,6 +8,13 @@ public class PostgraduateTaughtStudent extends Student{
     private static final int MIN_AGE = 20;
     private static final int PASS_PERCENTAGE = 50;
     private String ID;
+    private ArrayList<Module> registeredModules;
+
+    public void addModule(Module m){
+        if (!this.registeredModules.contains(m)){
+            this.registeredModules.add(m);
+        }
+    }
 
     private PostgraduateTaughtStudent(String name, Date birthday, ArrayList<Student> s) {
         super(name, birthday);
@@ -79,5 +86,13 @@ public class PostgraduateTaughtStudent extends Student{
 
     public static int getPassPercentage() {
         return PASS_PERCENTAGE;
+    }
+
+    public ArrayList<Module> getRegisteredModules(){
+        return this.registeredModules;
+    }
+
+    public String getID(){
+        return this.ID;
     }
 }

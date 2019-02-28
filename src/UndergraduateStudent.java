@@ -9,8 +9,13 @@ public class UndergraduateStudent extends Student{
     private static final int MIN_AGE = 17;
     private static final int PASS_PERCENTAGE = 40;
     private String ID;
+    private ArrayList<Module> registeredModules;
 
-
+    public void addModule(Module m){
+        if (!this.registeredModules.contains(m)){
+            this.registeredModules.add(m);
+        }
+    }
 
     public UndergraduateStudent(String name, Date birthday,ArrayList<Student> s) {
         super(name, birthday);
@@ -70,5 +75,9 @@ public class UndergraduateStudent extends Student{
 
     public String getID() {
         return ID;
+    }
+
+    public ArrayList<Module> getRegisteredModules(){
+        return this.registeredModules;
     }
 }
