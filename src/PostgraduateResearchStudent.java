@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.operations.Mod;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -10,9 +12,17 @@ public class PostgraduateResearchStudent extends Student{
     private final int FULL_NUMBER_CREDITS = 0;
     private final int MIN_AGE = 20;
     private String ID;
+    private Supervisor supervisor;
     //TODO create supervisors and add field for supervisor
     //TODO create method to return  name of supervisor
 
+    public ArrayList<Module> getRegisteredModules(){
+        return new ArrayList<>();
+    }
+
+    public String getID(){
+        return ID;
+    }
     private PostgraduateResearchStudent(String name, Date birthday, ArrayList<Student> s) {
         super(name, birthday);
         this.ID = createStudentID(s);
