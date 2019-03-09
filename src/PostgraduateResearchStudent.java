@@ -9,8 +9,8 @@ import java.util.Random;
  */
 public class PostgraduateResearchStudent extends Student{
 
-    private final int FULL_NUMBER_CREDITS = 0;
-    private final int MIN_AGE = 20;
+    private static final int FULL_NUMBER_CREDITS = 0;
+    private static final int MIN_AGE = 20;
     private String ID;
     private Supervisor supervisor;
     //TODO create supervisors and add field for supervisor
@@ -66,19 +66,14 @@ public class PostgraduateResearchStudent extends Student{
         }
     }
 
-    public PostgraduateResearchStudent registerStudent(String name, Date birthday, ArrayList<Student> students){
+    public static PostgraduateResearchStudent registerStudent(String name, Date birthday, ArrayList<Student> students) throws ageException{
 
-        if (this.getAge() >= MIN_AGE) {
-            PostgraduateResearchStudent s = new PostgraduateResearchStudent(name, birthday, students);
-            return s;
+        PostgraduateResearchStudent s = new PostgraduateResearchStudent(name, birthday, students);
+
+        if (s.getAge() < MIN_AGE) {
+            throw new ageException("New student is not old enough");
         }
-
-        //else return a student with null name
-
-        else {
-            return new PostgraduateResearchStudent("", new Date(), students);
-        }
-
+        return s;
 
     }
 

@@ -51,18 +51,14 @@ public class PostgraduateTaughtStudent extends Student{
         return sb.toString();
     }
 
-    public PostgraduateTaughtStudent registerStudent(String name, Date birthday, ArrayList<Student> students){
+    public static PostgraduateTaughtStudent registerStudent(String name, Date birthday, ArrayList<Student> students) throws ageException{
 
-        if (this.getAge() >= MIN_AGE) {
-            PostgraduateTaughtStudent s = new PostgraduateTaughtStudent(name, birthday, students);
-            return s;
+        PostgraduateTaughtStudent s = new PostgraduateTaughtStudent(name, birthday, students);
+
+        if (s.getAge() < MIN_AGE) {
+            throw new ageException("New student is not old enough");
         }
-
-        //else return a student with null name
-
-        else {
-            return new PostgraduateTaughtStudent("", new Date(), students);
-        }
+        return s;
 
 
     }

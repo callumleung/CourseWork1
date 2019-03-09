@@ -17,22 +17,19 @@ public class UndergraduateStudent extends Student{
         }
     }
 
-    public UndergraduateStudent(String name, Date birthday,ArrayList<Student> s) {
+
+    private UndergraduateStudent(String name, Date birthday,ArrayList<Student> s) throws ageException {
         super(name, birthday);
         this.ID = createStudentID(s);
     }
 
-    public UndergraduateStudent registerUndergrad(String name, Date birthday, ArrayList<Student> students){
+    public static UndergraduateStudent registerUndergrad(String name, Date birthday, ArrayList<Student> students) throws ageException{
 
-            if (this.getAge() >= MIN_AGE) {
-                UndergraduateStudent s = new UndergraduateStudent(name, birthday, students);
-                return s;
-            }
-
-            //else return a student with null name
-            else {
-                return new UndergraduateStudent("", new Date(), students);
-            }
+        UndergraduateStudent s = new UndergraduateStudent(name, birthday, students);
+        if (s.getAge() < MIN_AGE) {
+            throw new ageException("New student is not old enough");
+        }
+        return s;
     }
 
     String createStudentID(ArrayList<Student> students){

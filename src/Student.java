@@ -29,6 +29,14 @@ public abstract class Student implements Person{
         }
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public String getName() {
         return name;

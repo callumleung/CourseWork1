@@ -7,7 +7,7 @@ public class Module {
 
 
 
-    public Module(String name, String code, int credits) {
+    public Module(String code, String name,  int credits) {
         this.name = name;
         this.code = code;
         this.credits = credits;
