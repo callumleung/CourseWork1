@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class SmartCard {
 
@@ -9,22 +10,32 @@ public class SmartCard {
     private final Date dateOfIssue;
     private Date expiryDate;
 
-    public SmartCard(Student student, Date DoB, ArrayList<SmartCard> smartCards){
+    /** Public constructor. Sets the expiry date based on the type of student.
+     * @param student Student to which the card is pertaining to.
+     * @param smartCards List of existing smart cards to ensure smartCardNumber uniqueness.
+     */
+    public SmartCard(Student student,  ArrayList<SmartCard> smartCards){
         //default initialises to current time and date
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        dateOfIssue = c.getTime();
-        dateOfBirth = DoB;
+        dateOfIssue = new Date();
+        dateOfBirth = student.getBirthday();
         smartCardNumber = createSmartCardNumber(student, smartCards);
         setExpiryDate(student);
     }
 
 
+    /** Sets the exipry date of the smartcard.
+     *  For Undergraduates this is 4 years after issue.
+     *  For Postgraduate Taught this is 2 years after issue.
+     *  For Postgraduate Research this is 5 years after issue.
+     * @param student The student the smartcard belongs to.
+     */
     private void setExpiryDate(Student student){
 
         Calendar expiryDate = Calendar.getInstance();
         expiryDate.setTime(this.dateOfIssue);
 
+
+        //if instance of doesn't work, grab the first letter of the studentID instead
         if (student instanceof UndergraduateStudent){
             expiryDate.add(expiryDate.YEAR, 4);
         } else if (student instanceof PostgraduateTaughtStudent){
@@ -36,15 +47,25 @@ public class SmartCard {
         this.expiryDate = expiryDate.getTime();
     }
 
+    /**
+     * @return Returns the smartCardNumber.
+     */
     public String getSmartCardNumber(){
         return smartCardNumber;
     }
 
+    /**
+     * @return Returns a copy of the expiry date of the card.
+     */
     public Date getExpiryDate(){
-        return this.expiryDate;
+        return new Date(this.expiryDate.getTime());
     }
 
 
+    /** Fetches the initials of a student's name for use in the construction of the smartcard number.
+     * @param student Initials will be fetched from this student's name.
+     * @return A string containing only the student's initials.
+     */
     private String getInitials(Student student){
         // need to get the students name, split based on " " and get the first letter of each word
         //grabs the initial of each name in the students name, no issue for Firstname Lastname but will return more than
@@ -61,6 +82,12 @@ public class SmartCard {
         return sb.toString();
     }
 
+    /**Creates a smartcard number of the format INITIALS-YEAR-SERIAL, where serial is an incremental two digit number
+     * to ensure uniqueness.
+     * @param student The student that own's the smartcard.
+     * @param allSmartCards List of all previously issued smartcards to ensure uniqueness.
+     * @return a String in the format given above.
+     */
     private String createSmartCardNumber(Student student, ArrayList<SmartCard> allSmartCards) {
         //need the current year and arbitrary serial number
 
@@ -74,44 +101,24 @@ public class SmartCard {
         SCBuilder.append(String.valueOf(year));
         SCBuilder.append("-");
 
-        //String provisionalSmartCardNumber = SCBuilder.toString();
+        String startOfNumber = SCBuilder.toString();
 
-        boolean isUniqueID = false;
-        int i = 1;
+        int matchingSerial = 0;
+        for (SmartCard s: allSmartCards){
 
-        //get random two digit numbe
-        //start at serial 00 check against existing students
-        //check against preexisting id's
-
-        ///TODO alternatively, count the number of existing serials that match the initials and year and then append that+1
-        //O(n) instead of O(n^2)
-        StringBuilder serialBuilder = new StringBuilder();
-        while (!isUniqueID) {
-
-            int serial = 1;
-
-            if (serial < 10) {
-                serialBuilder.append("0");
-                serialBuilder.append(serial);
-            } else {
-                serialBuilder.append(serial);
+            String scNum = s.getSmartCardNumber();
+            String scNumNoSerial = scNum.substring(0, scNum.length()-1);
+            if ( scNumNoSerial.equals(startOfNumber)){
+                matchingSerial++;
             }
 
-            SCBuilder.append(serialBuilder.toString());
-
-            for (SmartCard sCard : allSmartCards) {
-                if (sCard.getSmartCardNumber() == SCBuilder.toString()) {
-                    //remove the last two chars in the serial and increment the serial
-                    SCBuilder.delete(SCBuilder.length() -1, SCBuilder.length());
-                    i++;
-                    break;
-                }
-
-                //id is therefore unique and we can exit loop.
-                isUniqueID = true;
-            }
         }
 
+        if (matchingSerial < 10){
+            SCBuilder.append("0" + matchingSerial);
+        } else {
+            SCBuilder.append(matchingSerial);
+        }
 
         return SCBuilder.toString();
     }
