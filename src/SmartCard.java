@@ -22,6 +22,20 @@ public class SmartCard {
         setExpiryDate(student);
     }
 
+    public SmartCard(SmartCard smartCard){
+        this.dateOfBirth = smartCard.getDateOfBirth();
+        this.smartCardNumber = smartCard.getSmartCardNumber();
+        this.dateOfIssue = smartCard.getDateOfIssue();
+        this.expiryDate = smartCard.getExpiryDate();
+    }
+
+    public Date getDateOfBirth() {
+        return new Date(this.dateOfBirth.getTime());
+    }
+
+    public Date getDateOfIssue() {
+        return new Date(dateOfIssue.getTime());
+    }
 
     /** Sets the exipry date of the smartcard.
      *  For Undergraduates this is 4 years after issue.
@@ -33,6 +47,10 @@ public class SmartCard {
 
         Calendar expiryDate = Calendar.getInstance();
         expiryDate.setTime(this.dateOfIssue);
+        expiryDate.set(Calendar.HOUR_OF_DAY, 0);
+        expiryDate.set(Calendar.MINUTE, 0);
+        expiryDate.set(Calendar.SECOND, 0);
+        expiryDate.set(Calendar.MILLISECOND, 0);
 
 
         //if instance of doesn't work, grab the first letter of the studentID instead
@@ -60,7 +78,6 @@ public class SmartCard {
     public Date getExpiryDate(){
         return new Date(this.expiryDate.getTime());
     }
-
 
     /** Fetches the initials of a student's name for use in the construction of the smartcard number.
      * @param student Initials will be fetched from this student's name.

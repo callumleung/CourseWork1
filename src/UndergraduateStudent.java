@@ -9,7 +9,7 @@ public class UndergraduateStudent extends Student{
     private static final int MIN_AGE = 17;
     private static final int PASS_PERCENTAGE = 40;
     private String ID;
-    private ArrayList<Module> registeredModules;
+    private SmartCard smartCard;
 
     /** Constructor
      * @param name String the name of the student to be created.
@@ -20,6 +20,7 @@ public class UndergraduateStudent extends Student{
     private UndergraduateStudent(String name, Date birthday,ArrayList<Student> s) throws ageException {
         super(name, birthday);
         this.ID = createStudentID(s);
+
     }
 
     /** Creates a postgraduate research student and ensures the student is old enough for this type of student.
@@ -35,9 +36,17 @@ public class UndergraduateStudent extends Student{
         if (s.getAge() < MIN_AGE) {
             throw new ageException("New student is not old enough");
         }
+
         return s;
     }
 
+    public void registerSmartCard(SmartCard smartCard){
+        this.smartCard = smartCard;
+    }
+
+    public SmartCard getSmartCard() {
+        return new SmartCard(this.smartCard);
+    }
 
     /** Creates a student ID starting with U followed by 4 random digits.
      * @param students A list of all existing students to ensure uniqueness of the ID.
@@ -60,15 +69,20 @@ public class UndergraduateStudent extends Student{
                 sb.append(n);
             }
 
-            //check against preexisting id's
-            //performance deteriorates the large the body of students.
-            for (Student s: students){
-               if (s instanceof UndergraduateStudent){
-                   if (((UndergraduateStudent) s).getID() == sb.toString()){
-                       isUnique = true;
-                   }
-               }
+            if (students.size() == 0 ) {
+                isUnique = true;
             }
+                //check against preexisting id's
+                //performance deteriorates the large the body of students.
+            for (Student s : students) {
+                if (s.getID().charAt(0) == 'U') {
+                    if (s.getID().equals(sb.toString())) {
+                            break;
+                    }
+                }
+            }
+            isUnique = true;
+
         }
         return sb.toString();
     }
@@ -86,6 +100,20 @@ public class UndergraduateStudent extends Student{
     }
 
     /**
+     * @return Return's the minimum age requirement for this type of student.
+     */
+    public static int getMinAge() {
+        return MIN_AGE;
+    }
+
+    /**
+     * @return Returns the pass mark for this type of student.
+     */
+    public static int getPassPercentage() {
+        return PASS_PERCENTAGE;
+    }
+
+    /**
      * @return Return's the undergraduates studentID
      */
     @Override
@@ -93,11 +121,11 @@ public class UndergraduateStudent extends Student{
         return ID;
     }
 
-    /**
+   /* *//**
      * @return Returns a copy of the arraylist of the modules the student is registered on.
-     */
+     *//*
     @Override
     public ArrayList<Module> getRegisteredModules(){
         return new ArrayList<>(this.registeredModules);
-    }
+    }*/
 }

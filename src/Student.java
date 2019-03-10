@@ -30,18 +30,14 @@ public abstract class Student implements Person{
         enrolledCredits = 0;
     }
 
-    /** Registers the student of a module and returns true if successfully added to the student and false otherwise.
+    /** Registers the student to a module.
      *  The enrolledCredits field of student is also incremented by the amount of the registered module.
      * @param m The module to be registered.
-     * @return a boolean true of false.
      */
-    boolean registerModule(Module m){
-        if (modules.contains(m)){
-            return false;
-        } else {
+    void registerModule(Module m) {
+        if (m != null) {
             modules.add(m);
             enrolledCredits += m.getCredits();
-            return true;
         }
     }
 
@@ -99,7 +95,7 @@ public abstract class Student implements Person{
         DateFormat dateFormatter = new SimpleDateFormat("yyyyMMdd");
         int birthdayInt = Integer.parseInt(dateFormatter.format(this.birthday));
         int currentdayInt = Integer.parseInt(dateFormatter.format(currentDate));
-        int age = (currentdayInt - birthdayInt) / 1000;
+        int age = (currentdayInt - birthdayInt) / 10000;
         return age;
     }
 
@@ -109,6 +105,17 @@ public abstract class Student implements Person{
 
     abstract public boolean validNumberOfCredits();
 
-    abstract public ArrayList<Module> getRegisteredModules();
+    /**
+     * @return Returns a copy of the arraylist of the modules the student is registered on.
+     */
+    public ArrayList<Module> getRegisteredModules(){
+        return new ArrayList<>(this.modules);
+    }
+
+    public void printRegisteredModules(){
+        for (Module m: this.modules){
+            System.out.println(m.toString());
+        }
+    }
 
 }

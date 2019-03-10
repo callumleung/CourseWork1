@@ -79,15 +79,19 @@ public class PostgraduateResearchStudent extends Student{
                 sb.append(n);
             }
 
+            if (students.size() == 0){
+                isUnique = true;
+            }
             //check against preexisting id's
             //performance deteriorates the large the body of students.
             for (Student s: students){
                 if (s instanceof UndergraduateStudent){
-                    if (((UndergraduateStudent) s).getID() == sb.toString()){
-                        isUnique = true;
+                    if (s.getID() == sb.toString()){
+                        break;
                     }
                 }
             }
+            isUnique = true;
         }
         return sb.toString();
     }
@@ -121,6 +125,11 @@ public class PostgraduateResearchStudent extends Student{
         }
         return s;
 
+    }
+
+    @Override
+    void registerModule(Module m){
+        System.out.println("Cannot register research students for taught modules.");
     }
 
 

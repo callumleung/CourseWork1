@@ -41,6 +41,26 @@ public class Supervisor implements Person {
         return calculateAge();
     }
 
+    @Override
+    public boolean equals(Object obj){
+
+        if (obj == null){
+            return false;
+        } else if (obj instanceof Supervisor){
+            if (((Supervisor) obj).getName().equals(this.name) && ((Supervisor) obj).getDateOfBirth().equals(this.dateOfBirth)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int hash = 3;
+        hash = hash + this.name.hashCode()*37;
+        hash = hash + this.dateOfBirth.hashCode()*37;
+        return hash;
+    }
     /**
      * Calculates the difference between the current date and the date of birth.
      * @return int of the difference in years.
@@ -51,7 +71,7 @@ public class Supervisor implements Person {
         DateFormat dateFormatter = new SimpleDateFormat("yyyyMMdd");
         int birthdayInt = Integer.parseInt(dateFormatter.format(this.dateOfBirth));
         int currentdayInt = Integer.parseInt(dateFormatter.format(currentDate));
-        int age = (currentdayInt - birthdayInt) / 1000;
+        int age = (currentdayInt - birthdayInt) / 10000;
         return age;
     }
 }

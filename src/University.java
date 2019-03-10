@@ -131,9 +131,11 @@ public class University {
                 Module tempModule = new Module(input[0], input[1], Integer.valueOf(input[2]));
                 returnList.add(tempModule);
             }
+            br.close();
         } catch (FileNotFoundException e){
             System.out.println("File not found.");
         }
+
 
 
         return returnList;

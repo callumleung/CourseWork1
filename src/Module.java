@@ -66,4 +66,11 @@ public class Module {
         return hash;
     }
 
+    @Override
+    public String toString(){
+         StringBuilder returnString = new StringBuilder();
+         returnString.append(code + ", "+ name + ", " + String.valueOf(credits));
+         return returnString.toString();
+    }
+
 }

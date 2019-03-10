@@ -42,15 +42,19 @@ public class PostgraduateTaughtStudent extends Student{
                 sb.append(n);
             }
 
+            if (students.size() == 0){
+                isUnique = true;
+            }
             //check against preexisting id's
             //performance deteriorates the large the body of students.
             for (Student s: students){
                 if (s instanceof UndergraduateStudent){
-                    if (((UndergraduateStudent) s).getID() == sb.toString()){
-                        isUnique = true;
+                    if (s.getID() == sb.toString()){
+                        break;
                     }
                 }
             }
+            isUnique = true;
         }
         return sb.toString();
     }
@@ -86,33 +90,27 @@ public class PostgraduateTaughtStudent extends Student{
         }
     }
 
-    /**
+   /* *//**
      * @return Returns the number of credits needed for full enrollment.
-     */
-    public static int getFullNumberCredits() {
+     *//*
+    public int getFullNumberCredits() {
         return FULL_NUMBER_CREDITS;
     }
 
-    /**
+    *//**
      * @return Return's the minimum age requirement for this type of student.
-     */
-    public static int getMinAge() {
+     *//*
+    public int getMinAge() {
         return MIN_AGE;
     }
 
-    /**
+    *//**
      * @return Returns the pass mark for this type of student.
-     */
-    public static int getPassPercentage() {
+     *//*
+    public int getPassPercentage() {
         return PASS_PERCENTAGE;
     }
-
-    /**
-     * @return Returns a copy of the modules taken by this student.
-     */
-    public ArrayList<Module> getRegisteredModules(){
-        return new ArrayList<>(this.registeredModules);
-    }
+*/
 
     /**
      * @return Returns the student's ID
