@@ -11,13 +11,15 @@ public class University {
 
     public static void main(String[] args) throws IOException, FileNotFoundException, ageException{
 
-        ArrayList<Student> allStyudents;
-        ArrayList<SmartCard> smartCards;
+        ArrayList<Student> allStudents = new ArrayList<>();
+        ArrayList<SmartCard> smartCards = new ArrayList<>();
+        ArrayList<Module> modules = readinModules("E:\\Programming\\Java\\MscCompSci\\CSC8002\\CourseWork1\\src\\Modules");
 
 
+        Student testStudent1 = registerUnderGrad("callum", new GregorianCalendar(1996, Calendar.MARCH, 16).getTime(), allStudents);
 
-
-
+        testStudent1.registerModule(modules.get(0));
+        System.out.println(testStudent1.getID());
 
 
     }
@@ -29,11 +31,11 @@ public class University {
     private static UndergraduateStudent registerUnderGrad(String name, Date birthday, ArrayList<Student> students) throws ageException{
         UndergraduateStudent newStudent;
         try {
-          newStudent = UndergraduateStudent.registerUndergrad(name, birthday, students);
+            newStudent = UndergraduateStudent.registerUndergrad(name, birthday, students);
 
         } catch (ageException e){
             Date defaultDate = new GregorianCalendar(1190, Calendar.JANUARY, 0).getTime();
-          newStudent = UndergraduateStudent.registerUndergrad("", defaultDate , students);
+            newStudent = UndergraduateStudent.registerUndergrad("", defaultDate , students);
         }
       return newStudent;
     }
@@ -83,15 +85,20 @@ public class University {
 
     private static ArrayList<Module> readinModules(String fileLocation) throws FileNotFoundException, IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader(fileLocation));
-
         ArrayList<Module> returnList = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileLocation));
 
-        while(br.readLine() != null ){
-            String[] input = br.readLine().split(",");
-            Module tempModule = new Module(input[0], input[1], Integer.valueOf(input[2]));
-            returnList.add(tempModule);
+
+            while(br.readLine() != null ){
+                String[] input = br.readLine().split(", ");
+                Module tempModule = new Module(input[0], input[1], Integer.valueOf(input[2]));
+                returnList.add(tempModule);
+            }
+        } catch (FileNotFoundException e){
+            System.out.println("File not found.");
         }
+
 
         return returnList;
     }
